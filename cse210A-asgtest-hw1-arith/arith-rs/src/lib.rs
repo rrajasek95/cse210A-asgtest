@@ -12,7 +12,7 @@ struct Element {
 }
 
 pub enum Exp{
-    IntExp(Box<i64>),
+    IntExp(i64),
     SumExp(Box<Exp>, Box<Exp>),
     MulExp(Box<Exp>, Box<Exp>),
     SubExp(Box<Exp>, Box<Exp>),
@@ -24,7 +24,7 @@ Quick and dirty implementation of eval
 */
 pub fn eval<'a>(expr: Exp) -> i64 {
     match expr {
-        Exp::IntExp(i) => *i,
+        Exp::IntExp(i) => i,
         Exp::SumExp(a, b) => eval(*a) + eval(*b),
         Exp::MulExp(a, b) => eval(*a) * eval(*b),
         Exp::SubExp(a, b) => eval(*a) - eval(*b)
@@ -112,16 +112,6 @@ We take a string slice as input, convert it to an element
 If we fail to parse, we return a string error message
 */
 
-
-fn letter_a(input: &str) -> Result<(&str, ()), &str> {
-    match input.chars().next() {
-        // Note: input.chars().next() returns an Option<char>, which can be either Some(char) or None
-        // this is the equivalent of a Maybe monad in Haskell
-
-        Some('a') => Ok((&input['a'.len_utf8()..], ())), // Note: unicode 'a' is a grapheme cluster, so we need to check its length carefully as a slice
-        _ => Err(input),
-    }
-}
 
 fn match_literal<'a>(expected: &'static str) -> impl Parser<'a, ()> {
     move |input: &'a str| match input.get(0..expected.len()) {
@@ -243,46 +233,56 @@ Numeric literal that can be:
 1. unsigned number
 2. negative signed integer
 */
-fn unsigned_literal<'a>() -> impl Parser<'a, i64> {
+
+fn number<'a>() -> impl Parser<'a, i64> {
     one_or_more(any_char.pred(|c| c.is_numeric()))
     .map(|chars| chars.into_iter().collect())
     .map(|s: String| s.parse().expect("Weird"))
 }
 
-fn negative_literal<'a>() -> impl Parser<'a, i64> {
-    right(match_literal("-"), unsigned_literal())
-    .map(|num| -num)
+fn negative_number<'a>() -> impl Parser<'a, i64> {
+    right(match_literal("-"), whitespace_wrap(number()))
+    .map(|i: i64| -i)
 }
 
-fn numeric_literal<'a>() -> impl Parser<'a, i64> {
-    whitespace_wrap(either(
-        negative_literal(),
-        unsigned_literal()
+fn numeric_literal<'a>() -> impl Parser<'a, Exp> {
+    whitespace_wrap(either(negative_number(), number()))
+    .map(|i: i64| Exp::IntExp(i))
+}
+
+fn mul_expr<'a>() -> impl Parser<'a, Exp> {
+    whitespace_wrap(pair(
+        left(numeric_literal(), match_literal("*")),
+        numeric_literal()
+    )).map(|(a, b)| Exp::MulExp(
+        Box::new(a),
+        Box::new(b)
     ))
 }
 
 fn sum_expr<'a>() -> impl Parser<'a, Exp> {
-    pair(
+    whitespace_wrap(pair(
         left(numeric_literal(), match_literal("+")),
         numeric_literal()
-    ).map(|(a, b)| Exp::SumExp(
-        Box::new(Exp::IntExp(Box::new(a))),
-        Box::new(Exp::IntExp(Box::new(b)))
+    )).map(|(a, b)| Exp::SumExp(
+        
+        Box::new(a),
+        Box::new(b)
     ))
 }
 
 fn sub_expr<'a>() -> impl Parser<'a, Exp> {
-    pair(
+    whitespace_wrap(pair(
         left(numeric_literal(), match_literal("-")),
         numeric_literal()
-    ).map(|(a, b)| Exp::SubExp(
-        Box::new(Exp::IntExp(Box::new(a))),
-        Box::new(Exp::IntExp(Box::new(b)))
+    )).map(|(a, b)| Exp::SubExp(
+        Box::new(a),
+        Box::new(b)
     ))
 }
 
 pub fn expr<'a>() -> impl Parser<'a, Exp> {
-    whitespace_wrap(either(mul_expr(), either(sum_expr(), sub_expr())))
+    either(numeric_literal(), either(mul_expr(), either(sum_expr(), sub_expr())))
 }
 /*
 Matches an identifier of the pattern: [a-zA-Z][a-zA-Z0-9-]*
@@ -413,8 +413,10 @@ where
         .map(|(next_input, result)| (next_input, map_fn(result)))
 }
 
-fn ibox(i: i64) -> Box<i64> {
-    Box::new(i)
+fn interpret(s: &str) -> i64 {
+    let (_, parsed_expr) = expr().parse(s).expect("Nothing");
+
+    eval(parsed_expr)
 }
 
 #[cfg(test)]
@@ -611,14 +613,18 @@ mod tests {
         assert_eq!(Err("</middle>"), element().parse(doc));
     }
 
+    /* 
+    Tests for the ARITH language from here:
+    */
+
     #[test]
     fn test_eval() {
-        let expr = Exp::SumExp(Box::new(Exp::IntExp(ibox(1))), Box::new(Exp::IntExp(ibox(2))));
+        let expr = Exp::SumExp(Box::new(Exp::IntExp(1)), Box::new(Exp::IntExp(2)));
 
         let expr2 = Exp::MulExp(
-            Box::new(Exp::IntExp(ibox(2))), Box::new(Exp::SumExp(Box::new(Exp::IntExp(ibox(1))), Box::new(Exp::IntExp(ibox(3))))));
+            Box::new(Exp::IntExp(2)), Box::new(Exp::SumExp(Box::new(Exp::IntExp(1)), Box::new(Exp::IntExp(3)))));
 
-        let expr3 = Exp::SubExp(Box::new(Exp::IntExp(ibox(1))), Box::new(Exp::IntExp(ibox(2))));
+        let expr3 = Exp::SubExp(Box::new(Exp::IntExp(1)), Box::new(Exp::IntExp(2)));
         assert_eq!(3,
             eval(expr));
         assert_eq!(8,
@@ -631,11 +637,8 @@ mod tests {
     fn numeric_literal_test() {
 
         assert_eq!(
-            Ok(("", 12)),
-            numeric_literal().parse("12"));
-        assert_eq!(
-            Ok(("", -112)),
-            numeric_literal().parse("-112"));
+            -12,
+            interpret("-12"));
                 
     }
 
@@ -643,10 +646,48 @@ mod tests {
     fn parse_sum() {
         let expr ="         -11         +              2       ";
 
-        let (s, parsed_expr) = sum_expr().parse(expr).expect("Nothing");
+        let (_s, parsed_expr) = sum_expr().parse(expr).expect("Nothing");
         assert_eq!(
             -9,
             eval(parsed_expr))
+    }
+
+    #[test]
+    fn parse_sub() {
+        let expr ="         -11         -              2       ";
+
+        let (_s, parsed_expr) = sub_expr().parse(expr).expect("Nothing");
+        assert_eq!(
+            -13,
+            eval(parsed_expr))
+    }
+
+    #[test]
+    fn parse_mul() {
+        let expr ="         -11         *              2       ";
+
+        let (_s, parsed_expr) = mul_expr().parse(expr).expect("Nothing");
+        assert_eq!(
+            -22,
+            eval(parsed_expr))
+    }
+
+    #[test]
+    fn parse_any() {
+        assert_eq!(
+            -22,
+            interpret("         -  11         *              2       "));
+        assert_eq!(
+            -13,
+            interpret("         -11         -              2       "));
+        assert_eq!(
+            -13,
+            interpret("         -11         +              -2       "));
+
+        assert_eq!(
+            6,
+            interpret("1 + 2 + 3")
+        )
     }
 
 
