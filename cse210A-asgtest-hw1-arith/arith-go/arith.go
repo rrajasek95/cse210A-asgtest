@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"bufio"
+	"os"
 	"strconv"
 	"unicode"
 )
@@ -84,14 +85,12 @@ func Multiplicand(input ParserInput) ParserResult {
 
 func Addend(input ParserInput) ParserResult {
 	return Parser(Multiplicand).Bind(func(firstResult interface{}) Parser {
-		println("FirstResult", firstResult.(IntExpr).Eval())
 		return expect("*").AndThen(Multiplicand).RepeatAndFoldLeft(firstResult, multiply)
 	})(input)
 }
 
 func Expression(input ParserInput) ParserResult {
 	return Parser(Addend).Bind(func(firstResult interface{}) Parser {
-		println("FirstResult", firstResult)
 		return expect("+").OrElse(expect("-")).AndThen(Addend).RepeatAndFoldLeft(firstResult, add)
 	})(input)
 }
@@ -125,9 +124,6 @@ func multiply(lhs interface{}, rhs interface{}) interface{} {
 }
 
 func add(lhs interface{}, rhs interface{}) interface{} {
-	println(lhs)
-	println(GetFirst(rhs).(string))
-	println(GetSecond(rhs).(Expr))
 	if "+" == GetFirst(rhs).(string) {
 		return SumExpr{lhs.(Expr), GetSecond(rhs).(Expr)}
 	} else {
@@ -136,7 +132,6 @@ func add(lhs interface{}, rhs interface{}) interface{} {
 }
 
 func readInt(arg interface{}) interface{} {
-	println(arg.(string))
 	var result, _ = strconv.Atoi(arg.(string))
 	return IntExpr{result}
 }
@@ -148,5 +143,7 @@ func parseInt(arg interface{}) interface{} {
 
 /* Main function which reads a line of input and outputs the resultant arithmetic expression */
 func main() {
-	fmt.Println("Hello, world.")
+	reader := bufio.NewReader(os.Stdin)
+	text, _ := reader.ReadString('\n')
+	println(Expression(StringToInput(text)).Result.(Expr).Eval())
 }
