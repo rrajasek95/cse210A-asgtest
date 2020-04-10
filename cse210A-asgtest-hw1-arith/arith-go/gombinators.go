@@ -1,5 +1,9 @@
 package main
 
+/*
+The code is partly based on the implementation in:
+https://github.com/QAhell/Parser-Gombinators
+*/
 import (
 	"container/list"
 	"strings"
@@ -43,8 +47,28 @@ func (parser Parser) Map(mapFunc func(interface{}) interface{}) Parser {
 func (parser Parser) Bind(bindF func(interface{}) Parser) Parser {
 	return func(input ParserInput) ParserResult {
 		var res = parser(input)
+
 		var secondParser = bindF(res.Result)
 		return secondParser(res.RemainingInput)
+	}
+}
+
+// RepeatAndFoldLeft implements a Monadic variant of the FoldLeft operation
+// Since the parse for +, - needs to be left-associative
+func (parser Parser) RepeatAndFoldLeft(accumulator interface{},
+	combine func(interface{},
+		interface{}) interface{}) Parser {
+	return func(input ParserInput) ParserResult {
+		var result = ParserResult{accumulator, input}
+		for result.RemainingInput != nil {
+			var oneMoreResult = parser(result.RemainingInput)
+			if oneMoreResult.Result == nil {
+				return result
+			}
+			result.Result = combine(result.Result, oneMoreResult.Result)
+			result.RemainingInput = oneMoreResult.RemainingInput
+		}
+		return result
 	}
 }
 
@@ -142,6 +166,9 @@ type ParserResult struct {
 // AnyChar consumes a single char from the stream
 func AnyChar() Parser {
 	return func(input ParserInput) ParserResult {
+		if input.CurrentCodePoint() == '\x00' {
+			return ParserResult{nil, input}
+		}
 		return ParserResult{input.CurrentCodePoint(), input.RemainingInput()}
 	}
 }
@@ -276,4 +303,30 @@ func ToString(input interface{}) interface{} {
 	}
 
 	return builder.String()
+}
+
+func ExpectSeveral(isFirstChar func(rune) bool,
+	isLaterChar func(rune) bool) Parser {
+	return func(input ParserInput) ParserResult {
+		if nil == input {
+			return ParserResult{nil, input}
+		}
+		var FirstCodePoint = input.CurrentCodePoint()
+		if !isFirstChar(FirstCodePoint) {
+			return ParserResult{nil, input}
+		}
+		var builder strings.Builder
+		var codePoint = FirstCodePoint
+		var RemainingInput = input
+		for isLaterChar(codePoint) {
+			builder.WriteRune(codePoint)
+			RemainingInput = RemainingInput.RemainingInput()
+			if RemainingInput == nil {
+				break
+			} else {
+				codePoint = RemainingInput.CurrentCodePoint()
+			}
+		}
+		return ParserResult{builder.String(), RemainingInput}
+	}
 }
