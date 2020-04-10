@@ -24,3 +24,6 @@ The implementation of ARITH was largely inspired by Armin Heller's posts:
 * https://medium.com/@armin.heller/parser-combinator-gotchas-2792deac4531
 
 The key differences are that the original blog post evaluates the expressions inline instead of building a parse tree and in the assignment, some additional combinators are implemented.
+
+#### Test Case Coverage
+![Test cases](arith-tests.png)
