@@ -72,4 +72,22 @@ func TestExpr(t *testing.T) {
 	if expr2.Result == nil || expr2.Result.(Expr).Eval() != -5 {
 		t.Errorf("Failed to parse expression")
 	}
+
+	var expr3 = Expression(StringToInput("2 ^ 4"))
+
+	if expr3.Result == nil || expr3.Result.(Expr).Eval() != 16 {
+		t.Errorf("Failed to parse expression")
+	}
+
+	var expr4 = Expression(StringToInput("3^4 + 1"))
+
+	if expr4.Result == nil || expr4.Result.(Expr).Eval() != 82 {
+		t.Errorf("Failed to parse expression")
+	}
+
+	var expr5 = Expression(StringToInput("3^(4 + 1)"))
+
+	if expr5.Result == nil || expr5.Result.(Expr).Eval() != 243 {
+		t.Errorf("Failed to parse expression")
+	}
 }

@@ -47,6 +47,15 @@ func (expr SubExpr) Eval() int {
 	return expr.left.Eval() - expr.right.Eval()
 }
 
+type PowExpr struct {
+	left  Expr
+	right Expr
+}
+
+func (expr PowExpr) Eval() int {
+	return pow(expr.left.Eval(), expr.right.Eval())
+}
+
 /* I start defining the specific parsers and predicates for ARITH here */
 func isDigit(codePoint interface{}) bool {
 	return unicode.IsDigit(codePoint.(rune))
@@ -78,15 +87,26 @@ func expect(text string) Parser {
 }
 
 func Multiplicand(input ParserInput) ParserResult {
-	return ExpectNumber.Map(toNumericString).Map(readInt).OrElse(
-		expect("(").AndThen(
-			Expression).AndThen(expect(")")).Left().Right())(input)
+	return Parser(Exponand).AndThen(expect("^")).Left().AndThen(Exponand).Map(func(res interface{}) interface{} {
+		var p = res.(Pair)
+
+		var e1 = p.First.(Expr)
+		var e2 = p.Second.(Expr)
+
+		return PowExpr{e1, e2}
+	}).OrElse(Exponand)(input)
 }
 
 func Addend(input ParserInput) ParserResult {
 	return Parser(Multiplicand).Bind(func(firstResult interface{}) Parser {
 		return expect("*").AndThen(Multiplicand).RepeatAndFoldLeft(firstResult, multiply)
 	})(input)
+}
+
+func Exponand(input ParserInput) ParserResult {
+	return ExpectNumber.Map(toNumericString).Map(readInt).OrElse(
+		expect("(").AndThen(
+			Expression).AndThen(expect(")")).Left().Right())(input)
 }
 
 func Expression(input ParserInput) ParserResult {
@@ -129,6 +149,20 @@ func add(lhs interface{}, rhs interface{}) interface{} {
 	} else {
 		return SubExpr{lhs.(Expr), GetSecond(rhs).(Expr)}
 	}
+}
+
+func exp(lhs interface{}, rhs interface{}) interface{} {
+	return PowExpr{lhs.(Expr), GetSecond(rhs).(Expr)}
+}
+
+/* Naive integer exponentiation */
+func pow(a, b int) int {
+	var i, result int
+	result = 1
+	for i = 0; i < b; i++ {
+		result *= a
+	}
+	return result
 }
 
 func readInt(arg interface{}) interface{} {
