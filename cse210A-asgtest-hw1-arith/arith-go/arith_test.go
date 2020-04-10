@@ -90,4 +90,10 @@ func TestExpr(t *testing.T) {
 	if expr5.Result == nil || expr5.Result.(Expr).Eval() != 243 {
 		t.Errorf("Failed to parse expression")
 	}
+
+	var expr6 = Expression(StringToInput("2^2^4"))
+
+	if expr6.Result == nil || expr6.Result.(Expr).Eval() != 65536 {
+		t.Errorf("Failed to parse expression")
+	}
 }

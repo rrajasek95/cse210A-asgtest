@@ -86,8 +86,11 @@ func expect(text string) Parser {
 	return MaybeSpacesBefore(ExpectString(text))
 }
 
+// Multiplicand is more convenient to implement due to the '^' operator being right associative
+// A right recursion variant is a sufficient implementation, although (in principle)
+// it can be replaced by a right fold
 func Multiplicand(input ParserInput) ParserResult {
-	return Parser(Exponand).AndThen(expect("^")).Left().AndThen(Exponand).Map(func(res interface{}) interface{} {
+	return Parser(Exponand).AndThen(expect("^")).Left().AndThen(Multiplicand).Map(func(res interface{}) interface{} {
 		var p = res.(Pair)
 
 		var e1 = p.First.(Expr)

@@ -19,3 +19,23 @@ load harness
 @test "custom-5" {
     check '-1' '-1' 
 }
+
+@test "custom-6" {
+    check '3^(4 + 1)' '243'
+}
+
+@test "custom-6" {
+    check '3^4 + 1' '82'
+}
+
+@test "custom-7" {
+    check '2*3^4' '162'
+}
+
+@test "custom-8" {
+    check '2^3*4' '32'
+}
+
+@test "custom-8" {
+    check '2^2^4' '65536'
+}
