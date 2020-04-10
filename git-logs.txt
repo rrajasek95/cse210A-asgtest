@@ -1,0 +1,108 @@
+commit e35163d5f4de558adf331a803a812ccdd1e1ca7f
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:43:22 2020 -0700
+
+    Add test image and PDF
+
+commit 52b1fe6e512911424ba86d36f3e9db02c4378c70
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:41:31 2020 -0700
+
+    Update README.MD with test case coverage
+
+commit 1ad5a734da526d1168659d30b09808d9795f7c11
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:33:36 2020 -0700
+
+    Update README.md
+
+commit b04302446838696fe2993a0c08f2251f78921b49
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:24:30 2020 -0700
+
+    Add custom test cases
+
+commit c52fb3fa91d0d620b233e8907b8d6f2c8f8dfc8b
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:19:17 2020 -0700
+
+    Update makefile to compile go code
+
+commit e72b1f1d91d6052d64ea3d75bb9ad19d7ae75172
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:13:09 2020 -0700
+
+    Have functional go arith implementation
+
+commit c9c3aae200bc0f1a64bc4001c2ebbd339b997e34
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 02:10:28 2020 -0700
+
+    Add basic go combinators and parsers
+
+commit 17d99186f76636bcfda2050d40aaa5e6656ff0df
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 9 17:00:05 2020 -0700
+
+    Create skeleton for go variant
+
+commit 30476e44f6d306ada9285be05bd0b30fb825fba7
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 8 13:35:32 2020 -0700
+
+    Unbox integer and create (failing) arith tests
+
+commit c5ccec1ae7e21bf1c950811ddd92bdc9603c7a85
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 7 12:44:40 2020 -0700
+
+    Initial code for ARITH
+
+commit 706b71ad17fc9949ca34e416b1939b19e4f8ac63
+Merge: b5a25cb d735291
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 11:37:50 2020 -0700
+
+    added README
+
+commit b5a25cb799ac85611fab7ebb8ef6cdd1e30955da
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 11:34:39 2020 -0700
+
+    name updating for arith
+
+commit d735291eb5f6b4c501abc7893f1c2313e71cdd59
+Author: versey-sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 10:49:22 2020 -0700
+
+    Create README.md
+
+commit 21ec9c800ad62f875d5088e58a3c71d994c396d5
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 10:29:49 2020 -0700
+
+    fixed naming
+
+commit ac967aa4b7eb2b98fef9f4efcfac21ccb18f858d
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Mar 27 20:55:37 2020 -0700
+
+    name changing
+
+commit ca5f499b2de70026c1d170d2010a9457511ebf43
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Mar 27 20:26:17 2020 -0700
+
+    done with while
+
+commit 102497cd16b478d65075fa651b71dd90e3c679fa
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Thu Mar 26 13:01:14 2020 -0700
+
+    testscripts from Sohum
+
+commit b68c4c00f7fa15e614c731ae4a892dc2a4c85691
+Author: Sohum Banerjea <sohumb@gmail.com>
+Date:   Mon Jan 6 11:21:35 2020 -0800
+
+    vendoring bats
