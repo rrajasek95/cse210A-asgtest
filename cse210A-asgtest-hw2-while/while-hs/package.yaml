@@ -46,6 +46,3 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - while-hs
-    
-    extra-deps:
-    - quicktest
