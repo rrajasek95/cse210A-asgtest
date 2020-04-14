@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 94a23ae4080bd705e6171cc197162d9b6e07346cc8eea0eac5a4cb2c6d50692c
+-- hash: 294f04cecf81cfabd21749422f0cfbe529d8decd978dd33f6500df1c53c9dff4
 
 name:           while-hs
 version:        0.1.0.0
@@ -27,7 +27,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      While
   other-modules:
       Paths_while_hs
   hs-source-dirs:
@@ -59,4 +59,6 @@ test-suite while-hs-test
   build-depends:
       base >=4.7 && <5
     , while-hs
+    , QuickCheck
+    , hspec
   default-language: Haskell2010
