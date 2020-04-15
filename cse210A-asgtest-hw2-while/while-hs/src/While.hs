@@ -189,6 +189,7 @@ number = do
 
 data Env a b
     = Environment (Map String a) (Map String b)
+    deriving (Eq, Show)
 
 data Var 
     = Var String
@@ -220,6 +221,7 @@ data Stmt
     | WhileStmt BExpr Stmt
     | AAssg Var AExpr
     | BAssg Var BExpr
+    deriving (Show)
 
 int :: Parser AExpr
 int = do
@@ -228,6 +230,7 @@ int = do
     spaces
     return (ALit n)
 
+-- Arithmetic AST parsers
 aExpr :: Parser AExpr
 aExpr = aTerm `chainl1` addop
 
@@ -260,12 +263,40 @@ mulop = infixOp "*" Mul
 powop :: Parser (AExpr -> AExpr -> AExpr)
 powop = infixOp "^" Pow
 
+-- Boolean AST parsers
 bool :: Parser BExpr
 bool = do
     b <- boolLit
     return (BLit b)
 
-    
+-- Stmt AST parsers
+
+skip :: Parser Stmt
+skip = 
+    do
+        reserved "skip"
+        return Skip
+
+-- Sequencing is effectively an infix operation (s1 ";" s2)
+seqOp :: Parser (Stmt -> Stmt -> Stmt)
+seqOp = infixOp ";" Seq
+
+arithAssignment :: Parser Stmt
+arithAssignment = do
+    v <- variable
+    reserved ":="
+    a <- aExpr
+
+    return (AAssg v a)
+
+
+assignment :: Parser Stmt
+assignment = arithAssignment
+
+
+stmt :: Parser Stmt
+stmt = (skip <|> assignment) `chainl1` seqOp
+
 evalA :: AExpr -> Env Int Bool -> Int
 evalA ex env@(Environment valMap _) = case ex of
     Add a1 a2 -> evalA a1 env + evalA a2 env
@@ -297,6 +328,12 @@ evalS s env@(Environment aVars bVars) = case s of
     BAssg (Var x) b -> let boolResult = evalB b env
         in Environment aVars (insert x boolResult bVars)
 
+
+runWhile :: String -> Stmt
+runWhile = runParser stmt
+
+interpret :: String -> Env Int Bool
+interpret s = flip evalS (Environment Data.Map.empty Data.Map.empty) $ runWhile s
 
 run :: String -> AExpr
 run = runParser aExpr

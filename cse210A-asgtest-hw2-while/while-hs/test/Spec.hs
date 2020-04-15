@@ -68,6 +68,7 @@ primitiveSuite = do
         it "should parse false as False" $ do
             runParser boolLit "false" `shouldBe` False
 
+
 --- Test eval of arithmetic expressions 
 aexprSuite :: Spec
 aexprSuite = let
@@ -151,11 +152,36 @@ bexprSuite = let
         it "should eval ~x to False when S[x:=true]" $ do
             evalB (BNeg varExpr) xIsTrueState `shouldBe` False
 
--- stmtSuite :: Spec
--- stmtSuite let 
---     in do
---     describe "While.evalS" $ do
+stmtSuite :: Spec
+stmtSuite = let
+        initState = Environment empty empty
+        xIs10State = Environment (fromList [("x", 10)]) empty
+        xIsTrueState = Environment empty (fromList [("x", True)])
+    in do
+    describe "While.evalS" $ do
+        it "should evaluate skip with state S[] to yield S[]" $ do
+            evalS Skip initState `shouldBe` initState
+        it "should evaluate x:= 10 with state S[] to yield[x:=10]" $ do
+            evalS (AAssg (Var "x") (ALit 10)) initState `shouldBe` xIs10State
+        it "should evaluate x:= true with state S[] to yield[x:=true]" $do
+            evalS (BAssg (Var "x") (BLit True)) initState `shouldBe` xIsTrueState
 
+
+whileSuite :: Spec
+whileSuite = let
+        initState = Environment empty empty
+        xIs10State = Environment (fromList [("x", 10)]) empty
+        
+    in do
+    describe "While.interpret" $ do
+        it "should eval the program 'skip' to S[]" $ do
+            interpret "skip" `shouldBe` initState
+        it "should eval the program 'x:=10' to S[x:=10]" $ do
+            interpret "x:=10" `shouldBe` xIs10State
+        it "should eval the program 'skip;x:=10' to S[x:=10]" $ do
+            interpret "skip;x:=10" `shouldBe` xIs10State
+        it "should eval the program 'x:=10;skip' to S[x:=10]" $ do
+            interpret "x:=10;skip" `shouldBe` xIs10State
 
 main :: IO ()
 main = hspec $ do
@@ -163,3 +189,5 @@ main = hspec $ do
     primitiveSuite
     aexprSuite
     bexprSuite
+    stmtSuite
+    whileSuite
