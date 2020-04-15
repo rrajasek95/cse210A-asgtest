@@ -29,6 +29,7 @@ runParserEither p a =
         [(res, [])] -> Left res
         [(_, rs)] -> Right "Parser failed to consume entire stream"
         _ -> Right "Undefined parser error."
+
 -- item parses a single character from stream
 item :: Parser Char
 item = Parser $ (\s ->
@@ -125,6 +126,13 @@ char c = satisfy (c ==)
 natural :: Parser Integer
 natural =  read <$> some (satisfy isDigit)
 
+-- boolLit parses a boolean value
+boolLit :: Parser Bool
+boolLit = 
+    (\s -> case s of
+        "true" -> True
+        "false" -> False) <$> (string "true" <|> string "false")
+
 -- Parses a string from the stream
 -- Isn't this the applicative pattern? We can tweak this later on
 string :: String -> Parser String
@@ -152,3 +160,46 @@ number = do
         cs <- some digit -- Read numbers
         return $ read (s ++ cs) -- Interpret the complete number as an Int
 
+-- Define AST and parsers for the different constructs
+
+-- Arithmetic Expressions
+data Var
+    = Var String
+data AExpr 
+    = Add AExpr AExpr
+    | Sub AExpr AExpr
+    | Mul AExpr AExpr
+    | Pow AExpr AExpr
+    | ALit Int
+    deriving (Show)
+
+data BExpr
+    = BLit Bool
+    | BEq AExpr AExpr
+    | BLTE AExpr AExpr
+    | BNeg BExpr
+    | BAnd BExpr BExpr
+
+data Stmt
+    = Skip
+    | Seq Stmt Stmt
+    | IfStmt BExpr Stmt Stmt
+    | WhileStmt BExpr Stmt
+    | Assg Var AExpr
+
+
+evalA :: AExpr -> Int
+evalA ex = case ex of
+    Add a1 a2 -> evalA a1 + evalA a2
+    Sub a1 a2 -> evalA a1 - evalA a2
+    Mul a1 a2 -> evalA a1 * evalA a2
+    Pow a1 a2 -> (evalA a1) ^ (evalA a2)
+    ALit n     -> n
+
+evalB :: BExpr -> Bool
+evalB ex = case ex of
+    BLit b -> b
+    BEq a1 a2 -> (evalA a1) == (evalA a2)
+    BLTE a1 a2 -> (evalA a1) <= (evalA a2)
+    BNeg b -> not (evalB b)
+    BAnd b1 b2 -> (evalB b1) && (evalB b2)
