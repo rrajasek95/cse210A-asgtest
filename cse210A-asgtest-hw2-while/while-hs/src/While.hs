@@ -20,9 +20,17 @@ newtype Parser a = Parser { parse  :: String -> [(a, String)]}
 -- it effectively "unwraps" or parser result
 runParser :: Parser a -> String -> a
 runParser p a =
-    case runParserEither p a of
+    case runParserDebug p a of
         Left l -> l
         Right r -> error r
+
+runParserDebug :: Parser a -> String -> Either a String
+runParserDebug p a =
+    case parse p a of
+        [(res, [])] -> Left res
+        [(_, rs)] -> Right ("Parser failed to consume entire stream " ++ rs)
+        _ -> Right "Undefined parser error."
+
 
 runParserEither :: Parser a -> String -> Either a String
 runParserEither p a =
@@ -137,7 +145,11 @@ boolLit =
 
 -- consider single letter variables for now
 variable :: Parser Var
-variable = Var <$> some (satisfy isAlpha)
+variable = Var <$> (do
+    spaces;
+    s <- some (satisfy isAlpha)
+    spaces;
+    return s)
 
 numVariable :: Parser AExpr
 numVariable = NumVar <$>(do 
@@ -264,6 +276,23 @@ powop :: Parser (AExpr -> AExpr -> AExpr)
 powop = infixOp "^" Pow
 
 -- Boolean AST parsers
+
+lessThanEq :: Parser BExpr
+lessThanEq = do
+    spaces
+    a1 <- aExpr
+    spaces
+    reserved "<="
+    spaces
+    a2 <- aExpr
+    spaces
+    return (BLTE a1 a2)
+
+bExpr :: Parser BExpr
+bExpr = (lessThanEq <|> bool) `chainl1` andOp
+
+andOp = infixOp "^" BAnd
+
 bool :: Parser BExpr
 bool = do
     b <- boolLit
@@ -293,9 +322,36 @@ arithAssignment = do
 assignment :: Parser Stmt
 assignment = arithAssignment
 
+ifElse :: Parser Stmt
+ifElse = do
+    spaces
+    reserved "if"
+    spaces
+    b <- bExpr
+    spaces
+    reserved "then"
+    spaces
+    s1 <- stmt
+    spaces
+    reserved "else"
+    spaces
+    s2 <- stmt
+    spaces
+    return (IfStmt b s1 s2)
 
+while :: Parser Stmt
+while = do
+    spaces
+    reserved "while"
+    spaces
+    b <- bExpr
+    spaces
+    reserved "do"
+    s <- stmt
+
+    return (WhileStmt b s)
 stmt :: Parser Stmt
-stmt = (skip <|> assignment) `chainl1` seqOp
+stmt = (skip <|> assignment <|> ifElse <|> while) `chainl1` seqOp
 
 evalA :: AExpr -> Env Int Bool -> Int
 evalA ex env@(Environment valMap _) = case ex of

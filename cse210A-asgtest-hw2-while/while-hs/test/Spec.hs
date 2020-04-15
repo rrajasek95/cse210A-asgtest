@@ -180,8 +180,14 @@ whileSuite = let
             interpret "x:=10" `shouldBe` xIs10State
         it "should eval the program 'skip;x:=10' to S[x:=10]" $ do
             interpret "skip;x:=10" `shouldBe` xIs10State
-        it "should eval the program 'x:=10;skip' to S[x:=10]" $ do
-            interpret "x:=10;skip" `shouldBe` xIs10State
+        it "should eval the program 'x :=   10;skip' to S[x:=10]" $ do
+            interpret "x :=   10;  skip   " `shouldBe` xIs10State
+        it "should eval the program 'if true then x:= 10 else skip' to S[x:=10]" $ do
+            interpret "if true then x:= 10 else skip" `shouldBe` xIs10State
+        it "should eval the program 'if false then x:= 10 else skip' to S[]" $ do
+            interpret "if false then x:= 10 else skip" `shouldBe` initState
+        it "should interpret the program 'while x <= 9 do x:= x + 1' to S[x:=10]" $ do
+            interpret "while x <= 9 do x:= x + 1" `shouldBe` xIs10State
 
 main :: IO ()
 main = hspec $ do
