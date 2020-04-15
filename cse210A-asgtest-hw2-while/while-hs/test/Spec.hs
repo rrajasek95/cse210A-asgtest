@@ -176,7 +176,7 @@ whileSuite :: Spec
 whileSuite = let
         initState = Environment empty empty
         xIs10State = Environment (fromList [("x", 10)]) empty
-        
+        xIsNState n = Environment (fromList [("x", n)]) empty
     in do
     describe "While.interpret" $ do
         it "should eval the program 'skip' to S[]" $ do
@@ -197,11 +197,12 @@ whileSuite = let
                 interpret "if (false) then x:= 10 else skip" `shouldBe` initState
         it "should interpret the program 'while x <= 9 do x:= x + 1' to S[x:=10]" $ do
             interpret "while x <= 9 do x:= x + 1" `shouldBe` xIs10State
-        
         it "should interpret the program 'if (true ^ false) then x:= 10 else skip' to S[]" $ do
             interpret "if (true ^ false) then x:=10 else skip" `shouldBe` initState
         it "should interpret the program 'if (true v false) then x:= 10 else skip' to S[x:=10]" $ do
             interpret "if (true v false) then x:=10 else skip" `shouldBe` xIs10State
+        it "should interpret the program 'while x = 0 do x := 3' to S[x:=3]" $ do
+            interpret "while x = 0 do x := 3" `shouldBe` xIsNState 3
 
 utilitiesSuite :: Spec
 utilitiesSuite =

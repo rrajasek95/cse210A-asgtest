@@ -148,9 +148,11 @@ boolLit =
 variable :: Parser Var
 variable = Var <$> (do
     spaces;
-    s <- some (satisfy isAlpha)
+    c <- satisfy isAlpha
+    s <- many (satisfy (\x -> isAlpha x || isDigit x))
+
     spaces;
-    return s)
+    return ([c] ++ s))
 
 numVariable :: Parser AExpr
 numVariable = NumVar <$>(do 
@@ -222,6 +224,7 @@ data BExpr
     = BLit Bool
     | BEq AExpr AExpr
     | BLTE AExpr AExpr
+    | BLT AExpr AExpr
     | BNeg BExpr
     | BAnd BExpr BExpr
     | BOr BExpr BExpr
@@ -266,7 +269,11 @@ aPow = int <|> numVariable <|> parens aExpr
 
 -- Matches an operator token and wraps data constructor
 infixOp :: String -> (a -> a -> a) -> Parser (a -> a -> a)
-infixOp x f = reserved x >> return f
+infixOp x f = do 
+    spaces
+    reserved x
+    spaces
+    return f
 
 addop :: Parser (AExpr -> AExpr -> AExpr)
 addop = (infixOp "+" Add) <|> (infixOp "-" Sub)
@@ -278,6 +285,16 @@ powop :: Parser (AExpr -> AExpr -> AExpr)
 powop = infixOp "^" Pow
 
 -- Boolean AST parsers
+equalTo :: Parser BExpr
+equalTo = do
+    spaces
+    a1 <- aExpr
+    spaces
+    reserved "="
+    spaces
+    a2 <- aExpr
+    spaces
+    return (BEq a1 a2)
 
 lessThanEq :: Parser BExpr
 lessThanEq = do
@@ -290,17 +307,40 @@ lessThanEq = do
     spaces
     return (BLTE a1 a2)
 
+lessThan :: Parser BExpr
+lessThan = do
+    spaces
+    a1 <- aExpr
+    spaces
+    reserved "<"
+    spaces
+    a2 <- aExpr
+    spaces
+    return (BLT a1 a2)
+
+negation :: Parser BExpr
+negation = do
+    spaces
+    reserved "¬"
+    spaces
+    b <- bExpr
+    spaces
+    return (BNeg b)
+
+boolPrimitives :: Parser BExpr
+boolPrimitives = lessThanEq <|> lessThan <|> equalTo <|> negation <|> bool <|> parens bExpr
+
 bDisjunctive :: Parser BExpr
-bDisjunctive = (lessThanEq <|> bool <|> parens bExpr) `chainl1` andOp
+bDisjunctive = boolPrimitives `chainl1` andOp
 
 bExpr :: Parser BExpr
 bExpr = bDisjunctive `chainl1` orOp
 
 andOp :: Parser (BExpr -> BExpr -> BExpr)
-andOp = infixOp "^" BAnd
+andOp = infixOp "∧" BAnd
 
 orOp :: Parser (BExpr -> BExpr -> BExpr)
-orOp = infixOp "v" BOr
+orOp = infixOp "∨" BOr
 
 bool :: Parser BExpr
 bool = do
@@ -323,10 +363,13 @@ seqOp = infixOp ";" Seq
 
 arithAssignment :: Parser Stmt
 arithAssignment = do
+    spaces
     v <- variable
+    spaces
     reserved ":="
+    spaces
     a <- aExpr
-
+    spaces
     return (AAssg v a)
 
 
@@ -380,6 +423,7 @@ evalB ex env@(Environment _ valMap) = case ex of
     BoolVar (Var x) -> findWithDefault False x valMap
     BEq a1 a2 -> (evalA a1 env) == (evalA a2 env)
     BLTE a1 a2 -> (evalA a1 env) <= (evalA a2 env)
+    BLT a1 a2 -> (evalA a1 env) < (evalA a2 env)
     BNeg b -> not (evalB b env)
     BAnd b1 b2 -> (evalB b1 env) && (evalB b2 env)
     BOr b1 b2 -> (evalB b1 env) || (evalB b2 env)
@@ -407,7 +451,7 @@ interpret s = flip evalS (Environment Data.Map.empty Data.Map.empty) $ runWhile 
 showState :: Env Int Bool -> String
 showState (Environment aVars _) = 
     let
-        arrowMap = [ k ++ " → " ++ show v | (k, v) <- toList aVars, v /= 0 ]
+        arrowMap = [ k ++ " → " ++ show v | (k, v) <- toList aVars]
     in "{" ++ (intercalate ", " arrowMap) ++ "}"
 run :: String -> AExpr
 run = runParser aExpr
