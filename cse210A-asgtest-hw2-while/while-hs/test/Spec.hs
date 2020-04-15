@@ -3,6 +3,7 @@ import Test.QuickCheck
 import Control.Exception (evaluate)
 
 import While
+import Data.Map (empty, fromList)
 
 combinatorSuite :: Spec
 combinatorSuite = let 
@@ -69,7 +70,11 @@ primitiveSuite = do
 
 --- Test eval of arithmetic expressions 
 aexprSuite :: Spec
-aexprSuite = let 
+aexprSuite = let
+        initState = Environment empty empty
+        
+        xIs10State = Environment (fromList [("x", 10)]) empty
+
         lit1 = ALit 1
         lit2 = ALit 2
         lit3 = ALit 3
@@ -79,24 +84,33 @@ aexprSuite = let
         mulExpr = Mul lit2 lit3
         subMul = Sub lit1 mulExpr
         powExpr = Pow lit2 lit3
+        varExpr = NumVar (Var "x")
     in do
     describe "While.evalA" $ do
         it "should eval 2 to 2" $ do
-            evalA lit2 `shouldBe` 2
+            evalA lit2 initState `shouldBe` 2
         it "should compute 1 + 2 = 3" $ do
-            evalA addExpr `shouldBe` 3
+            evalA addExpr initState `shouldBe` 3
         it "should compute 1 - 2 = -1" $ do
-            evalA subExpr `shouldBe` -1
+            evalA subExpr initState `shouldBe` -1
         it "should compute 2 * 3 = 6" $ do
-            evalA mulExpr `shouldBe` 6
+            evalA mulExpr initState `shouldBe` 6
         it "should compute 2 ^ 3 = 8" $ do
-            evalA powExpr `shouldBe` 8
+            evalA powExpr initState `shouldBe` 8
         it "should compute 1 - 2 * 3 = 5" $ do
-            evalA subMul `shouldBe` -5
+            evalA subMul initState `shouldBe` -5
+        it "should evaluate x to 0 when S[]" $ do
+            evalA varExpr initState `shouldBe` 0
+        it "should evaluate x to 10 when S[x:=10]" $ do
+            evalA varExpr xIs10State `shouldBe` 10
+        it "should evaluate x + x to 20 when S[x:=10]" $ do
+            evalA (Add varExpr varExpr) xIs10State `shouldBe` 20
 
 -- Test eval of boolean expressions
 bexprSuite :: Spec
 bexprSuite = let
+    initState = Environment empty empty
+    xIsTrueState = Environment empty (fromList [("x", True)])
     lit1 = BLit True
     lit2 = BLit False
 
@@ -105,27 +119,43 @@ bexprSuite = let
     eqExpr = BEq alit1 alit2
     lteExpr = BLTE alit1 alit2
     negExpr = BNeg lit1
+    varExpr = BoolVar (Var "x")
     in do
     describe "While.evalB" $ do
         it "should eval true to true" $ do
-            evalB lit1 `shouldBe` True
+            evalB lit1 initState `shouldBe` True
         it "should eval false to false" $ do
-            evalB lit2 `shouldBe` False
+            evalB lit2 initState `shouldBe` False
 
         it "should eval 1 <= 2 to True" $ do
-            evalB lteExpr `shouldBe` True
+            evalB lteExpr initState `shouldBe` True
 
         it "should eval 1 = 2 to False" $ do
-            evalB eqExpr `shouldBe` False
+            evalB eqExpr initState `shouldBe` False
 
         it "should eval not true to False" $ do
-            evalB negExpr `shouldBe` False
+            evalB negExpr initState `shouldBe` False
         it "should eval true and true to True" $ do
-            evalB (BAnd lit1 lit1) `shouldBe` True
+            evalB (BAnd lit1 lit1) initState `shouldBe` True
         it "should eval true and false to False" $ do
-            evalB (BAnd lit1 lit2) `shouldBe` False
+            evalB (BAnd lit1 lit2) initState `shouldBe` False
         it "should eval (1 <= 2) and (2 <= 1) to False" $ do
-            evalB (BAnd lteExpr (BLTE alit2 alit1)) `shouldBe` False
+            evalB (BAnd lteExpr (BLTE alit2 alit1)) initState `shouldBe` False
+        it "should eval x to False when S[]" $ do
+            evalB varExpr initState `shouldBe` False
+        it "shoule eval ~x to True when S[]" $ do
+            evalB (BNeg varExpr) initState `shouldBe` True
+
+        it "should eval x to true when S[x:=true]" $ do
+            evalB varExpr xIsTrueState `shouldBe` True
+        it "should eval ~x to False when S[x:=true]" $ do
+            evalB (BNeg varExpr) xIsTrueState `shouldBe` False
+
+-- stmtSuite :: Spec
+-- stmtSuite let 
+--     in do
+--     describe "While.evalS" $ do
+
 
 main :: IO ()
 main = hspec $ do

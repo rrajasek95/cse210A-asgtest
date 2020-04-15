@@ -5,4 +5,4 @@ import Data.Map (empty, fromList)
 main :: IO ()
 main = do
     a <- getLine
-    print $ flip evalA empty $ run a
+    print $ flip evalA (Environment (fromList [("test", 22)]) empty) $ run a

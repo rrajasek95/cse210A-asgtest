@@ -140,7 +140,11 @@ variable :: Parser Var
 variable = Var <$> some (satisfy isAlpha)
 
 numVariable :: Parser AExpr
-numVariable = NumVar <$> variable
+numVariable = NumVar <$>(do 
+    spaces;    
+    v <- variable;
+    spaces;
+    return v)
 
 -- Parses a string from the stream
 -- Isn't this the applicative pattern? We can tweak this later on
@@ -183,6 +187,9 @@ number = do
 
 -- Define AST and parsers for the different constructs
 
+data Env a b
+    = Environment (Map String a) (Map String b)
+
 data Var 
     = Var String
     deriving (Show)
@@ -203,6 +210,7 @@ data BExpr
     | BLTE AExpr AExpr
     | BNeg BExpr
     | BAnd BExpr BExpr
+    | BoolVar Var
     deriving (Show)
 
 data Stmt
@@ -210,7 +218,8 @@ data Stmt
     | Seq Stmt Stmt
     | IfStmt BExpr Stmt Stmt
     | WhileStmt BExpr Stmt
-    | Assg Var AExpr
+    | AAssg Var AExpr
+    | BAssg Var BExpr
 
 int :: Parser AExpr
 int = do
@@ -256,22 +265,38 @@ bool = do
     b <- boolLit
     return (BLit b)
 
-evalA :: AExpr -> Map String Int -> Int
-evalA ex valMap = case ex of
-    Add a1 a2 -> evalA a1 valMap + evalA a2 valMap
-    Sub a1 a2 -> evalA a1 valMap - evalA a2 valMap
-    Mul a1 a2 -> evalA a1 valMap * evalA a2 valMap
-    Pow a1 a2 -> (evalA a1 valMap) ^ (evalA a2 valMap)
+    
+evalA :: AExpr -> Env Int Bool -> Int
+evalA ex env@(Environment valMap _) = case ex of
+    Add a1 a2 -> evalA a1 env + evalA a2 env
+    Sub a1 a2 -> evalA a1 env - evalA a2 env
+    Mul a1 a2 -> evalA a1 env * evalA a2 env
+    Pow a1 a2 -> (evalA a1 env) ^ (evalA a2 env)
     ALit n     -> n
     NumVar (Var x) -> findWithDefault 0 x valMap
 
-evalB :: BExpr -> Map String Int -> Bool
-evalB ex valMap = case ex of
+
+evalB :: BExpr -> Env Int Bool -> Bool
+evalB ex env@(Environment _ valMap) = case ex of
     BLit b -> b
-    BEq a1 a2 -> (evalA a1 valMap) == (evalA a2 valMap)
-    BLTE a1 a2 -> (evalA a1 valMap) <= (evalA a2 valMap)
-    BNeg b -> not (evalB b valMap)
-    BAnd b1 b2 -> (evalB b1 valMap) && (evalB b2 valMap)
+    BoolVar (Var x) -> findWithDefault False x valMap
+    BEq a1 a2 -> (evalA a1 env) == (evalA a2 env)
+    BLTE a1 a2 -> (evalA a1 env) <= (evalA a2 env)
+    BNeg b -> not (evalB b env)
+    BAnd b1 b2 -> (evalB b1 env) && (evalB b2 env)
+
+
+evalS :: Stmt -> Env Int Bool -> Env Int Bool
+evalS s env@(Environment aVars bVars) = case s of
+    Skip -> env
+    Seq s1 s2 -> evalS s2 (evalS s1 env)
+    IfStmt b s1 s2 -> if evalB b env then evalS s1 env else evalS s2 env
+    WhileStmt b s -> if evalB b env then evalS (WhileStmt b s) (evalS s env) else env
+    AAssg (Var x) a -> let arithResult = evalA a env 
+        in Environment (insert x arithResult aVars) bVars
+    BAssg (Var x) b -> let boolResult = evalB b env
+        in Environment aVars (insert x boolResult bVars)
+
 
 run :: String -> AExpr
 run = runParser aExpr

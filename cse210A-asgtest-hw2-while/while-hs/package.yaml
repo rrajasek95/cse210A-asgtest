@@ -22,6 +22,8 @@ description:         Please see the README on GitHub at <https://github.com/rraj
 dependencies:
 - base >= 4.7 && < 5
 - containers
+- QuickCheck
+- hspec
 
 library:
   source-dirs: src
@@ -47,3 +49,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - while-hs
+    - QuickCheck
+    - hspec
