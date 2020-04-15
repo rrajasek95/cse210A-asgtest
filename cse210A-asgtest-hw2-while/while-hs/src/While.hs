@@ -401,11 +401,14 @@ while = do
     b <- bExpr
     spaces
     reserved "do"
-    s <- stmt
+    s <- (do reserved "{" ; spaces ; s' <- stmt ; reserved "}"; spaces; return s') <|> simpleStmt
 
     return (WhileStmt b s)
+
+simpleStmt :: Parser Stmt
+simpleStmt = (skip <|> assignment <|> ifElse <|> while)
 stmt :: Parser Stmt
-stmt = (skip <|> assignment <|> ifElse <|> while) `chainl1` seqOp
+stmt =  simpleStmt `chainl1` seqOp
 
 evalA :: AExpr -> Env Int Bool -> Int
 evalA ex env@(Environment valMap _) = case ex of
