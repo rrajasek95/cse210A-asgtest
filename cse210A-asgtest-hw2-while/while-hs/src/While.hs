@@ -120,6 +120,7 @@ p `chainl1` op = do {
                        b <- p;
                        rest (f a b)) <|> return a
 
+
 char :: Char -> Parser Char
 char c = satisfy (c ==)
 
@@ -213,10 +214,15 @@ aTerm :: Parser AExpr
 aTerm = aFactor `chainl1` mulop
 
 aFactor :: Parser AExpr
-aFactor = int <|> parens aExpr
-
--- aPow :: Parser AExpr
--- aPow = int <|> parens aExpr
+-- aFactor = int <|> parens aExpr
+aFactor = do 
+    a <- aPow 
+    (do 
+        f <- powop
+        b <- aFactor
+        return (f a b) ) <|> return a
+aPow :: Parser AExpr
+aPow = int <|> parens aExpr
 
 -- Matches an operator token and wraps data constructor
 infixOp :: String -> (a -> a -> a) -> Parser (a -> a -> a)
@@ -228,8 +234,8 @@ addop = (infixOp "+" Add) <|> (infixOp "-" Sub)
 mulop :: Parser (AExpr -> AExpr -> AExpr)
 mulop = infixOp "*" Mul
 
--- powop :: Parser (AExpr -> AExpr -> AExpr)
--- powop = infixOp "^" Pow
+powop :: Parser (AExpr -> AExpr -> AExpr)
+powop = infixOp "^" Pow
 
 bool :: Parser BExpr
 bool = do
