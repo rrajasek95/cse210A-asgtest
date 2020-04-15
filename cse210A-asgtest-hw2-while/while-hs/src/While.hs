@@ -1,6 +1,7 @@
 module While where
 
 import Data.Char
+import Data.Map
 import Control.Monad
 import Control.Applicative
 
@@ -134,6 +135,13 @@ boolLit =
         "true" -> True
         "false" -> False) <$> (string "true" <|> string "false")
 
+-- consider single letter variables for now
+variable :: Parser Var
+variable = Var <$> some (satisfy isAlpha)
+
+numVariable :: Parser AExpr
+numVariable = NumVar <$> variable
+
 -- Parses a string from the stream
 -- Isn't this the applicative pattern? We can tweak this later on
 string :: String -> Parser String
@@ -175,15 +183,18 @@ number = do
 
 -- Define AST and parsers for the different constructs
 
--- Arithmetic Expressions
-data Var
+data Var 
     = Var String
-data AExpr 
+    deriving (Show)
+
+
+data AExpr
     = Add AExpr AExpr
     | Sub AExpr AExpr
     | Mul AExpr AExpr
     | Pow AExpr AExpr
     | ALit Int
+    | NumVar Var
     deriving (Show)
 
 data BExpr
@@ -192,6 +203,7 @@ data BExpr
     | BLTE AExpr AExpr
     | BNeg BExpr
     | BAnd BExpr BExpr
+    deriving (Show)
 
 data Stmt
     = Skip
@@ -213,16 +225,18 @@ aExpr = aTerm `chainl1` addop
 aTerm :: Parser AExpr
 aTerm = aFactor `chainl1` mulop
 
+-- TODO: find a more idiomatic construct for this
+-- it looks very awkward
 aFactor :: Parser AExpr
--- aFactor = int <|> parens aExpr
 aFactor = do 
     a <- aPow 
     (do 
         f <- powop
         b <- aFactor
         return (f a b) ) <|> return a
+
 aPow :: Parser AExpr
-aPow = int <|> parens aExpr
+aPow = int <|> numVariable <|> parens aExpr
 
 -- Matches an operator token and wraps data constructor
 infixOp :: String -> (a -> a -> a) -> Parser (a -> a -> a)
@@ -242,21 +256,22 @@ bool = do
     b <- boolLit
     return (BLit b)
 
-evalA :: AExpr -> Int
-evalA ex = case ex of
-    Add a1 a2 -> evalA a1 + evalA a2
-    Sub a1 a2 -> evalA a1 - evalA a2
-    Mul a1 a2 -> evalA a1 * evalA a2
-    Pow a1 a2 -> (evalA a1) ^ (evalA a2)
+evalA :: AExpr -> Map String Int -> Int
+evalA ex valMap = case ex of
+    Add a1 a2 -> evalA a1 valMap + evalA a2 valMap
+    Sub a1 a2 -> evalA a1 valMap - evalA a2 valMap
+    Mul a1 a2 -> evalA a1 valMap * evalA a2 valMap
+    Pow a1 a2 -> (evalA a1 valMap) ^ (evalA a2 valMap)
     ALit n     -> n
+    NumVar (Var x) -> findWithDefault 0 x valMap
 
-evalB :: BExpr -> Bool
-evalB ex = case ex of
+evalB :: BExpr -> Map String Int -> Bool
+evalB ex valMap = case ex of
     BLit b -> b
-    BEq a1 a2 -> (evalA a1) == (evalA a2)
-    BLTE a1 a2 -> (evalA a1) <= (evalA a2)
-    BNeg b -> not (evalB b)
-    BAnd b1 b2 -> (evalB b1) && (evalB b2)
+    BEq a1 a2 -> (evalA a1 valMap) == (evalA a2 valMap)
+    BLTE a1 a2 -> (evalA a1 valMap) <= (evalA a2 valMap)
+    BNeg b -> not (evalB b valMap)
+    BAnd b1 b2 -> (evalB b1 valMap) && (evalB b2 valMap)
 
 run :: String -> AExpr
 run = runParser aExpr
