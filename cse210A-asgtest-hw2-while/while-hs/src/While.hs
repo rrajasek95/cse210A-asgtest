@@ -147,8 +147,20 @@ token p = do {
     return a;
 }
 
+-- Match multiple spaces
 spaces :: Parser String
 spaces = many $ oneOf " \n\r"
+
+-- mark a string as a space separated token
+reserved :: String -> Parser String
+reserved s = token (string s)
+
+parens :: Parser a -> Parser a
+parens p = do
+    reserved "("
+    a <- p
+    reserved ")"
+    return a
 
 -- isDigit is taken from Control.Char
 digit :: Parser Char
@@ -156,7 +168,7 @@ digit = satisfy isDigit
 
 number :: Parser Int
 number = do
-        s <- string "-" <|> return [] -- Read negative sign or nothing
+        s <- reserved "-" <|> return [] -- Read negative sign or nothing
         cs <- some digit -- Read numbers
         return $ read (s ++ cs) -- Interpret the complete number as an Int
 
@@ -187,6 +199,42 @@ data Stmt
     | WhileStmt BExpr Stmt
     | Assg Var AExpr
 
+int :: Parser AExpr
+int = do
+    spaces
+    n <- number
+    spaces
+    return (ALit n)
+
+aExpr :: Parser AExpr
+aExpr = aTerm `chainl1` addop
+
+aTerm :: Parser AExpr
+aTerm = aFactor `chainl1` mulop
+
+aFactor :: Parser AExpr
+aFactor = int <|> parens aExpr
+
+-- aPow :: Parser AExpr
+-- aPow = int <|> parens aExpr
+
+-- Matches an operator token and wraps data constructor
+infixOp :: String -> (a -> a -> a) -> Parser (a -> a -> a)
+infixOp x f = reserved x >> return f
+
+addop :: Parser (AExpr -> AExpr -> AExpr)
+addop = (infixOp "+" Add) <|> (infixOp "-" Sub)
+
+mulop :: Parser (AExpr -> AExpr -> AExpr)
+mulop = infixOp "*" Mul
+
+-- powop :: Parser (AExpr -> AExpr -> AExpr)
+-- powop = infixOp "^" Pow
+
+bool :: Parser BExpr
+bool = do
+    b <- boolLit
+    return (BLit b)
 
 evalA :: AExpr -> Int
 evalA ex = case ex of
@@ -203,3 +251,6 @@ evalB ex = case ex of
     BLTE a1 a2 -> (evalA a1) <= (evalA a2)
     BNeg b -> not (evalB b)
     BAnd b1 b2 -> (evalB b1) && (evalB b2)
+
+run :: String -> AExpr
+run = runParser aExpr

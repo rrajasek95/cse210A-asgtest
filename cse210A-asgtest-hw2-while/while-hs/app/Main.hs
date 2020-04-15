@@ -3,4 +3,6 @@ module Main where
 import While
 
 main :: IO ()
-main = putStrLn "Hello, World!"
+main = do
+    a <- getLine
+    print $ evalA $ run a
