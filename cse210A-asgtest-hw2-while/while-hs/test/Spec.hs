@@ -121,6 +121,9 @@ bexprSuite = let
     lteExpr = BLTE alit1 alit2
     negExpr = BNeg lit1
     varExpr = BoolVar (Var "x")
+
+    andExpr = BAnd lit1 lit2
+    orExpr = BOr lit1 lit2
     in do
     describe "While.evalB" $ do
         it "should eval true to true" $ do
@@ -139,7 +142,9 @@ bexprSuite = let
         it "should eval true and true to True" $ do
             evalB (BAnd lit1 lit1) initState `shouldBe` True
         it "should eval true and false to False" $ do
-            evalB (BAnd lit1 lit2) initState `shouldBe` False
+            evalB andExpr initState `shouldBe` False
+        it "should eval true or false to True" $ do
+            evalB orExpr initState `shouldBe` True
         it "should eval (1 <= 2) and (2 <= 1) to False" $ do
             evalB (BAnd lteExpr (BLTE alit2 alit1)) initState `shouldBe` False
         it "should eval x to False when S[]" $ do
@@ -184,10 +189,34 @@ whileSuite = let
             interpret "x :=   10;  skip   " `shouldBe` xIs10State
         it "should eval the program 'if true then x:= 10 else skip' to S[x:=10]" $ do
             interpret "if true then x:= 10 else skip" `shouldBe` xIs10State
+        it "should eval the program 'if (true) then x:= 10 else skip' to S[x:=10]" $ do
+            interpret "if (true) then x:= 10 else skip" `shouldBe` xIs10State
         it "should eval the program 'if false then x:= 10 else skip' to S[]" $ do
             interpret "if false then x:= 10 else skip" `shouldBe` initState
+        it "should eval the program 'if false then x:= 10 else skip' to S[]" $ do
+                interpret "if (false) then x:= 10 else skip" `shouldBe` initState
         it "should interpret the program 'while x <= 9 do x:= x + 1' to S[x:=10]" $ do
             interpret "while x <= 9 do x:= x + 1" `shouldBe` xIs10State
+        
+        it "should interpret the program 'if (true ^ false) then x:= 10 else skip' to S[]" $ do
+            interpret "if (true ^ false) then x:=10 else skip" `shouldBe` initState
+        it "should interpret the program 'if (true v false) then x:= 10 else skip' to S[x:=10]" $ do
+            interpret "if (true v false) then x:=10 else skip" `shouldBe` xIs10State
+
+utilitiesSuite :: Spec
+utilitiesSuite =
+    let
+        initState = Environment empty empty
+        xIs10State = Environment (fromList [("x", 10)]) empty
+        multiVarState = Environment (fromList [("x", 10), ("f", 20)]) empty
+    in do
+    describe "While.showState" $ do
+        it "should show empty state as {}" $ do
+            showState initState `shouldBe` "{}"
+        it "should show single variable as {x → 10} for S[x:=10]" $ do
+            showState xIs10State `shouldBe` "{x → 10}"
+        it "should show S[x:=10,f:=20] as {f → 20, x → 10}" $ do
+            showState multiVarState `shouldBe` "{f → 20, x → 10}"
 
 main :: IO ()
 main = hspec $ do
@@ -197,3 +226,4 @@ main = hspec $ do
     bexprSuite
     stmtSuite
     whileSuite
+    utilitiesSuite

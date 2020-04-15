@@ -1,6 +1,7 @@
 module While where
 
 import Data.Char
+import Data.List (intercalate)
 import Data.Map
 import Control.Monad
 import Control.Applicative
@@ -223,6 +224,7 @@ data BExpr
     | BLTE AExpr AExpr
     | BNeg BExpr
     | BAnd BExpr BExpr
+    | BOr BExpr BExpr
     | BoolVar Var
     deriving (Show)
 
@@ -288,14 +290,23 @@ lessThanEq = do
     spaces
     return (BLTE a1 a2)
 
-bExpr :: Parser BExpr
-bExpr = (lessThanEq <|> bool) `chainl1` andOp
+bDisjunctive :: Parser BExpr
+bDisjunctive = (lessThanEq <|> bool <|> parens bExpr) `chainl1` andOp
 
+bExpr :: Parser BExpr
+bExpr = bDisjunctive `chainl1` orOp
+
+andOp :: Parser (BExpr -> BExpr -> BExpr)
 andOp = infixOp "^" BAnd
+
+orOp :: Parser (BExpr -> BExpr -> BExpr)
+orOp = infixOp "v" BOr
 
 bool :: Parser BExpr
 bool = do
+    spaces
     b <- boolLit
+    spaces
     return (BLit b)
 
 -- Stmt AST parsers
@@ -371,6 +382,7 @@ evalB ex env@(Environment _ valMap) = case ex of
     BLTE a1 a2 -> (evalA a1 env) <= (evalA a2 env)
     BNeg b -> not (evalB b env)
     BAnd b1 b2 -> (evalB b1 env) && (evalB b2 env)
+    BOr b1 b2 -> (evalB b1 env) || (evalB b2 env)
 
 
 evalS :: Stmt -> Env Int Bool -> Env Int Bool
@@ -391,5 +403,11 @@ runWhile = runParser stmt
 interpret :: String -> Env Int Bool
 interpret s = flip evalS (Environment Data.Map.empty Data.Map.empty) $ runWhile s
 
+-- Data.Map enforces ordering, so we can rely on that to display our variables in order
+showState :: Env Int Bool -> String
+showState (Environment aVars _) = 
+    let
+        arrowMap = [ k ++ " → " ++ show v | (k, v) <- toList aVars, v /= 0 ]
+    in "{" ++ (intercalate ", " arrowMap) ++ "}"
 run :: String -> AExpr
 run = runParser aExpr
