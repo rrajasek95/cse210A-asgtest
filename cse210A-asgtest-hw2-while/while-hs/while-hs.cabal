@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 611bf46824bcb59deacaca8389b647ccff9ad86e90459485d973341e9cfafa78
+-- hash: 8cfe51fbd172ba23e3eef4558abacf3ad72f11ad72c9f44fab4b01f10bcbbf13
 
 name:           while-hs
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      NanoParsec
       While
   other-modules:
       Paths_while_hs

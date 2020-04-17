@@ -25,5 +25,22 @@ The implementation of ARITH was largely inspired by Armin Heller's posts:
 
 The key differences are that the original blog post evaluates the expressions inline instead of building a parse tree and in the assignment, some additional combinators are implemented.
 
-#### Test Case Coverage
-![Test cases](arith-tests.png)
+### Assignment 2
+**While** was implemented in Haskell using the stack build tool. 
+
+Stack can be set up following the instructions from here: https://docs.haskellstack.org/en/stable/README/
+
+The implementation of while was inspired by "Write You A Haskell" tutorial by Stephen Diehl. The section on Parsers covered how to implement components of an arithmetic expression parser. Parts of the paper "Applicative program with effects" helped me understand applicative functors to be used in this code. 
+
+* http://dev.stephendiehl.com/fun/002_parsers.html
+* https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.114.1555&rep=rep1&type=pdf
+
+The Boolean expressions, statement expressions, variable assignment and dereferencing and the interpreter were fully implemented by me.
+
+#### TODO
+* Implement ternary operators (easy: a ternary is `BExpr ? AExpr : AExpr`)
+* Ambitious: implement functions
+
+### Test Case Coverage
+![ARITH cases](arith-tests.png)
+![WHILE cases](while-tests.png)
