@@ -1,3 +1,129 @@
+commit 8a04c8fbf8350959b3d8aebd5d900a22e8768178
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:37:51 2020 -0700
+
+    Add a very fragile version of ternary
+
+commit ad6a4a99a6fdee3aff895964cd299451f0756d20
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:20:38 2020 -0700
+
+    Add ternary operator
+
+commit 8ede9c864733c91545e3497f803b13dd5dc0a5b8
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 17 01:32:16 2020 -0700
+
+    Move combinators to separate file
+
+commit cf6c655e3ce7f6a30ae5e4a3036813fbab6e8ae4
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 02:17:48 2020 -0700
+
+    make while non-greedy
+
+commit eeab08bb8fca26d94de4869f3fd976e77247f2c2
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 02:12:19 2020 -0700
+
+    Add more boolean operators and tweak variable scheme
+
+commit 1bc64cf20a21382c91241d1e008644758447d1df
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 01:36:38 2020 -0700
+
+    Add boolean expressions and setup main interpreter
+
+commit 28322c5286920f94b2fc87d1f2712db0202338e1
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 01:00:20 2020 -0700
+
+    Add while loop support to language
+
+commit 964c2573513577eeede412cf71c7125a03b82673
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 00:31:29 2020 -0700
+
+    Add skip and assignment to while language
+
+commit fa39deb0f2e30f7de8a2e0a49a0307ad82c0845c
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 23:59:57 2020 -0700
+
+    define eval for statements
+
+commit 013df34e9822e913316547ae7e85c8828df491e6
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 23:10:33 2020 -0700
+
+    Add basic support for variables
+
+commit 552e6e4d36d3fe3e021adb1a57ec92422f8e699c
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 22:29:06 2020 -0700
+
+    Add support for exponentiation
+
+commit f77b75501d4ac890636011a877b2e3016683f210
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 21:28:28 2020 -0700
+
+    Add working ARITH interpreter without exponentiation
+
+commit ddfb3f0e2e63c372bb4b14d619b323ba2ad962a4
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 18:24:57 2020 -0700
+
+    Add AST constructs, arithmetic expression and boolean expression support
+
+commit d00a5939f78812e85d9c423e17a7516458d5b9c3
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 16:12:32 2020 -0700
+
+    Add makefile for haskell and gitignore while code
+
+commit 238e96bc80b4b9bc490b55f92c3838edf287378d
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 16:01:40 2020 -0700
+
+    Update package.yaml
+
+commit 32b87bc1c8e97002b88f2aafbae80936175afad1
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 15:58:15 2020 -0700
+
+    Add parser combinators and basic spec tests
+
+commit 8846a2ebd7c08960bd54b53b5b51cf89719a6c66
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 00:49:54 2020 -0700
+
+    Add stack skeleton for while
+
+commit 85256b7f75f5b1b0c45b8ba5f5491f1e2d182014
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 00:47:15 2020 -0700
+
+    Remove rust code for ARITH
+
+commit 868e0146b4248e0c4b90333b4b37a1b0bdd98f33
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 11:15:31 2020 -0700
+
+    Add test cases for exponentiation
+
+commit 43328dc735b5c016efc92e187a0d7f5fb9fe920b
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 05:10:30 2020 -0700
+
+    Add exponentiation and test cases
+
+commit e6446466ed5e39fba59af4c7717278d870783c45
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:46:43 2020 -0700
+
+    Add logs for assignment 1
+
 commit e35163d5f4de558adf331a803a812ccdd1e1ca7f
 Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
 Date:   Fri Apr 10 04:43:22 2020 -0700
