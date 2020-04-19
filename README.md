@@ -26,7 +26,7 @@ The implementation of ARITH was largely inspired by Armin Heller's posts:
 The key differences are that the original blog post evaluates the expressions inline instead of building a parse tree and in the assignment, some additional combinators are implemented.
 
 ### Assignment 2
-**While** was implemented in Haskell using the stack build tool. 
+**While** was implemented in Haskell using the stack build tool. The stack tool is able to select the right version of GHC automatically (as specified in the `stack.yaml` file), so no additional work is needed to setup the compiler.
 
 Stack can be set up following the instructions from here: https://docs.haskellstack.org/en/stable/README/
 
@@ -35,10 +35,9 @@ The implementation of while was inspired by "Write You A Haskell" tutorial by St
 * http://dev.stephendiehl.com/fun/002_parsers.html
 * https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.114.1555&rep=rep1&type=pdf
 
-The Boolean expressions, statement expressions, variable assignment and dereferencing and the interpreter were fully implemented by me.
+The Boolean expressions, statement expressions, ternary operator, variable assignment and dereferencing and the interpreter were fully implemented by me.
 
 #### TODO
-* Implement ternary operators (easy: a ternary is `BExpr ? AExpr : AExpr`)
 * Ambitious: implement functions
 
 ### Test Case Coverage
