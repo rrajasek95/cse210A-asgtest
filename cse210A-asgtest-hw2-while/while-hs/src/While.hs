@@ -134,13 +134,19 @@ aTerm = aFactor `chainl1` mulop
 
 aTernary :: Parser AExpr
 aTernary =
-        parens (do
+        (parens (do
+            spaces
             b<- bExpr
+            spaces
             reserved "?"
-            a1 <- aSummand
+            spaces
+            a1 <- aExpr
+            spaces
             reserved ":"
-            a2 <- aSummand
-            return (Tern b a1 a2)) <|> aSummand
+            spaces
+            a2 <- aExpr
+            spaces
+            return (Tern b a1 a2)) <|> aTerm) `chainl1` addop
 
 -- TODO: find a more idiomatic construct for this
 -- it looks very awkward
