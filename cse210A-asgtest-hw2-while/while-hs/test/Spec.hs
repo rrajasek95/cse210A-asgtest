@@ -2,6 +2,7 @@ import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
 
+import NanoParsec
 import While
 import Data.Map (empty, fromList)
 
@@ -198,11 +199,14 @@ whileSuite = let
         it "should interpret the program 'while x <= 9 do x:= x + 1' to S[x:=10]" $ do
             interpret "while x <= 9 do x:= x + 1" `shouldBe` xIs10State
         it "should interpret the program 'if (true ^ false) then x:= 10 else skip' to S[]" $ do
-            interpret "if (true ^ false) then x:=10 else skip" `shouldBe` initState
+            interpret "if (true ∧ false) then x:=10 else skip" `shouldBe` initState
         it "should interpret the program 'if (true v false) then x:= 10 else skip' to S[x:=10]" $ do
-            interpret "if (true v false) then x:=10 else skip" `shouldBe` xIs10State
+            interpret "if (true ∨ false) then x:=10 else skip" `shouldBe` xIs10State
         it "should interpret the program 'while x = 0 do x := 3' to S[x:=3]" $ do
             interpret "while x = 0 do x := 3" `shouldBe` xIsNState 3
+
+        it "should interprety the program 'x:=(true ? 1 : 2)' to S[x:=1]" $ do
+            interpret "x:=(true ? 1 : 2)" `shouldBe` xIsNState 1
 
 utilitiesSuite :: Spec
 utilitiesSuite =

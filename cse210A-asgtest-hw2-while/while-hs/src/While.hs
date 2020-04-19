@@ -123,12 +123,24 @@ int = do
     spaces
     return (ALit n)
 
--- Arithmetic AST parsers
 aExpr :: Parser AExpr
-aExpr = aTerm `chainl1` addop
+aExpr = aTernary
+
+aSummand :: Parser AExpr
+aSummand = aTerm `chainl1` addop
 
 aTerm :: Parser AExpr
 aTerm = aFactor `chainl1` mulop
+
+aTernary :: Parser AExpr
+aTernary =
+        parens (do
+            b<- bExpr
+            reserved "?"
+            a1 <- aSummand
+            reserved ":"
+            a2 <- aSummand
+            return (Tern b a1 a2)) <|> aSummand
 
 -- TODO: find a more idiomatic construct for this
 -- it looks very awkward
@@ -294,6 +306,7 @@ evalA ex env@(Environment valMap _) = case ex of
     Pow a1 a2 -> (evalA a1 env) ^ (evalA a2 env)
     ALit n     -> n
     NumVar (Var x) -> findWithDefault 0 x valMap
+    Tern b a1 a2 -> if (evalB b env) then (evalA a1 env) else (evalA a2 env)
 
 
 evalB :: BExpr -> Env Int Bool -> Bool
@@ -332,5 +345,6 @@ showState (Environment aVars _) =
     let
         arrowMap = [ k ++ " → " ++ show v | (k, v) <- toList aVars]
     in "{" ++ (intercalate ", " arrowMap) ++ "}"
+
 run :: String -> AExpr
 run = runParser aExpr
