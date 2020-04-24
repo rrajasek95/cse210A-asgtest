@@ -37,9 +37,19 @@ The implementation of while was inspired by "Write You A Haskell" tutorial by St
 
 The Boolean expressions, statement expressions, ternary operator, variable assignment and dereferencing and the interpreter were fully implemented by me.
 
-#### TODO
-* Ambitious: implement functions
+### Assignment 4
+**Small Step While** was implemented in Haskell was implemented in Haskell using the stack build tool. The stack tool is able to select the right version of GHC automatically (as specified in the `stack.yaml` file), so no additional work is needed to setup the compiler.
+
+Stack can be set up following the instructions from here: https://docs.haskellstack.org/en/stable/README/
+
+The definition of Show for pretty printing the AST was based off Prof. Flanagan's code in https://canvas.ucsc.edu/courses/32489/assignments/122288
+
+The implementation of the evaluation, printing functions etc were fully by me.
+
 
 ### Test Case Coverage
 ![ARITH cases](arith-tests.png)
+
 ![WHILE cases](while-tests.png)
+
+![WHILE-SS cases](while-ss-tests.png)
