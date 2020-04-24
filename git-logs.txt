@@ -1,3 +1,39 @@
+commit ce8f9904fbef2f2300964a988b62a65c61d6b544
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:15:22 2020 -0700
+
+    Add test case image and report
+
+commit ede37b0d14124b6cbfc98b551e26d8b5f35456c3
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:11:37 2020 -0700
+
+    Add while-ss to gitignore
+
+commit 83c0da62760d3959d10db49d1f365452c86e6579
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:10:02 2020 -0700
+
+    Implement small step while
+
+commit 34487a1d7f596b430e211d8331ec6cef0851da15
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:49:25 2020 -0700
+
+    Update readme and add test output
+
+commit ae45583b0a56b762294cad574dd93a44ba1f1080
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:43:46 2020 -0700
+
+    Add readme.pdf for assignment 2
+
+commit 3bbfd5eee990c52e3c5c68d0c75bcdcef023fa3f
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:40:14 2020 -0700
+
+    Add new while tests image and log
+
 commit 8a04c8fbf8350959b3d8aebd5d900a22e8768178
 Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
 Date:   Sun Apr 19 00:37:51 2020 -0700
