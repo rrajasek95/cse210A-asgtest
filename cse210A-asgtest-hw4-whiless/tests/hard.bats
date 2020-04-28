@@ -70,7 +70,7 @@ load harness
 }
 
 @test "hard-15" {
-  check 'x :=3 * f0 ; z := 2 * x' '⇒ skip; z := (2*x), {x → 0}
+  check 'x := 3 * f0 ; z := 2 * x' '⇒ skip; z := (2*x), {x → 0}
 ⇒ z := (2*x), {x → 0}
 ⇒ skip, {x → 0, z → 0}'
 }
@@ -87,7 +87,7 @@ load harness
 }
 
 @test "hard-18" {
-  check 'while false do c:= x * z' '⇒ skip, {}'
+  check 'while false do c := x * z' '⇒ skip, {}'
 }
 
 @test "hard-19" {

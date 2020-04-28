@@ -47,51 +47,32 @@ load harness
 }
 
 @test "easy-10" {
-  check 'if 0 < x ∧ 4 < y then x := 1 else x:= 3' '⇒ x := 3, {}
-⇒ skip, {x → 3}'
-}
-
-@test "easy-11" {
   check 'if x = 0 ∨ y < 4 then x := 1 else x := 3' '⇒ x := 1, {}
 ⇒ skip, {x → 1}'
 }
 
+
 @test "easy-12" {
-  check 'if x = 0 ∨ 4 < 4 then x := 1 else x := 3' '⇒ x := 1, {}
-⇒ skip, {x → 1}'
-}
-
-@test "easy-13" {
-  check 'if 0 < x ∨ 4 = 4 then x := 1 else x := 3' '⇒ x := 1, {}
-⇒ skip, {x → 1}'
-}
-
-@test "easy-14" {
-  check 'if 0 < x ∨ 4 < y then x := 1 else x := 3' '⇒ x := 3, {}
-⇒ skip, {x → 3}'
-}
-
-@test "easy-15" {
   check 'while ¬ true do x := 1' '⇒ skip, {}'
 }
 
-@test "easy-16" {
+@test "easy-13" {
   check 'while ¬ ( x < 0 ) do x := -1' '⇒ x := -1; while ¬(x<0) do { x := -1 }, {}
 ⇒ skip; while ¬(x<0) do { x := -1 }, {x → -1}
 ⇒ while ¬(x<0) do { x := -1 }, {x → -1}
 ⇒ skip, {x → -1}'
 }
 
-@test "easy-17" {
-  check '{ a := 1; b := 2 } ; c := 3' '⇒ skip; b := 2; c := 3, {a → 1}
+@test "easy-14" {
+  check '{ a := 1 ; b := 2 } ; c := 3' '⇒ skip; b := 2; c := 3, {a → 1}
 ⇒ b := 2; c := 3, {a → 1}
 ⇒ skip; c := 3, {a → 1, b → 2}
 ⇒ c := 3, {a → 1, b → 2}
 ⇒ skip, {a → 1, b → 2, c → 3}'
 }
 
-@test "easy-18" {
-  check 'z := 26 ; { a := 1 ; b := 2; c := 3 }' '⇒ skip; a := 1; b := 2; c := 3, {z → 26}
+@test "easy-15" {
+  check 'z := 26 ; { a := 1 ; b := 2 ; c := 3 }' '⇒ skip; a := 1; b := 2; c := 3, {z → 26}
 ⇒ a := 1; b := 2; c := 3, {z → 26}
 ⇒ skip; b := 2; c := 3, {a → 1, z → 26}
 ⇒ b := 2; c := 3, {a → 1, z → 26}
@@ -100,7 +81,7 @@ load harness
 ⇒ skip, {a → 1, b → 2, c → 3, z → 26}'
 }
 
-@test "easy-19" {
+@test "easy-16" {
   check 'while ( z < 40 ) do { z := ( z + 1 ) * 2 }' '⇒ z := ((z+1)*2); while (z<40) do { z := ((z+1)*2) }, {}
 ⇒ skip; while (z<40) do { z := ((z+1)*2) }, {z → 2}
 ⇒ while (z<40) do { z := ((z+1)*2) }, {z → 2}
@@ -119,7 +100,7 @@ load harness
 ⇒ skip, {z → 62}'
 }
 
-@test "easy-20" {
+@test "easy-17" {
   check '{ while true do x := x - 3 }' '⇒ x := (x-3); while true do { x := (x-3) }, {}
 ⇒ skip; while true do { x := (x-3) }, {x → -3}
 ⇒ while true do { x := (x-3) }, {x → -3}
