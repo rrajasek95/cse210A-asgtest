@@ -1,3 +1,46 @@
+commit 50fa0716a74460b6280ee429d186a367a18580c2
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:11:44 2020 -0700
+
+    Actual commit: Add results and description for python implementation
+
+commit 10101e4a693454c66569af1724386d2352d50dba
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:10:56 2020 -0700
+
+    Add results and description for python implementation
+
+commit e8bcae734a3cf7b926762ee24444b8ad53be3bff
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:02:09 2020 -0700
+
+    Complete implementation of small step while in python
+
+commit 2556ad4510e0cade84a90235c295a22b4d439a0a
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Mon Apr 27 23:36:29 2020 -0700
+
+    Add skeleton code for while python
+
+commit ef9503288e2ebfc9c837e2cd0453e26ee826fecb
+Merge: 06ce243 51b24e6
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Mon Apr 27 23:34:15 2020 -0700
+
+    Merge branch 'master' of https://github.com/versey-sherry/cse210A-asgtest
+
+commit 51b24e619965898465166dda213cef9f293344d7
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 24 20:47:44 2020 -0700
+
+    changed structures
+
+commit 06ce24357060331432720f4ceb332abc69f36e33
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:16:04 2020 -0700
+
+    Add git logs
+
 commit ce8f9904fbef2f2300964a988b62a65c61d6b544
 Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
 Date:   Thu Apr 23 19:15:22 2020 -0700
@@ -46,11 +89,64 @@ Date:   Sun Apr 19 00:20:38 2020 -0700
 
     Add ternary operator
 
+commit 912ec54c77ad3c5df41e15bab5d5f1f7cb0caf87
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Apr 18 09:13:08 2020 -0700
+
+    changed hard-11 back
+
+commit 185582fdfa8e77ed891b49cbad86180f76c49fa1
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 19:55:19 2020 -0700
+
+    while-ss spaces
+
+commit 7ec39f8ddbea59bb2b6573c7a0a0f2f9465810be
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 17:45:47 2020 -0700
+
+    fix case 11
+
+commit 6cf8dc91216ee82c030fbeedbbe69e9921a49e9c
+Merge: f0e5d17 b3866f3
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 17:38:02 2020 -0700
+
+    Merge branch 'master' of https://github.com/versey-sherry/cse210A-asgtest
+    add spaces
+
+commit f0e5d17ed9006af6a5239216530d62e5b6a6d26f
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 17:34:12 2020 -0700
+
+    add spaces
+
+commit b3866f35631069178168d748b328ec5360a13b98
+Merge: 706b71a 75300d0
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 08:41:50 2020 -0700
+
+    Merge pull request #1 from nijssen/master
+    
+    Some fixes to the homework 2 test scripts that fix a few incorrect spaces
+
 commit 8ede9c864733c91545e3497f803b13dd5dc0a5b8
 Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
 Date:   Fri Apr 17 01:32:16 2020 -0700
 
     Move combinators to separate file
+
+commit 75300d0038b7771a39faa0ee484202680737e851
+Author: Thomas Nijssen <tnijssen@ucsc.edu>
+Date:   Fri Apr 17 00:07:59 2020 -0700
+
+    Removed temporary test case
+
+commit 9763544c25655a5676cd245d03b16c2d593799c0
+Author: Thomas Nijssen <tnijssen@ucsc.edu>
+Date:   Fri Apr 17 00:03:15 2020 -0700
+
+    Some fixes to the homework 2 test scripts that fix a few incorrect spaces
 
 commit cf6c655e3ce7f6a30ae5e4a3036813fbab6e8ae4
 Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
