@@ -1,8 +1,7 @@
 from WhileVisitor import WhileVisitor
-from collections import defaultdict
 
 class WhileEvalVisitor(WhileVisitor):
-    memory = defaultdict(int)
+    memory = dict()
 
     def visitProg(self, ctx):
         return self.visit(ctx.stat())
@@ -23,7 +22,7 @@ class WhileEvalVisitor(WhileVisitor):
             return self.visit(ctx.expr(0)) / self.visit(ctx.expr(1))
 
     def visitId(self, ctx):
-        return self.memory[ctx.ID().getText()]
+        return self.memory.get(ctx.ID().getText(), 0)
     
     def visitInt(self, ctx):
         return int(ctx.INT().getText())
