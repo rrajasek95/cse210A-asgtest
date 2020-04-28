@@ -40,7 +40,7 @@ class Add(Expr):
         self.right = right
     
     def eval(self, memory):
-        return self.left.eval(memory) - self.right.eval(memory)
+        return self.left.eval(memory) + self.right.eval(memory)
 
     def show(self):
         return "(" + self.left.show() + "+" + self.right.show() + ")"
@@ -195,7 +195,7 @@ class IfThenElse(Stmt):
             return (self.s2, memory)
 
     def show(self):
-        return "if " + self.cond.show() + " then {" + self.s1.show() + " } else { " + self.s2.show() + " }"
+        return "if " + self.cond.show() + " then { " + self.s1.show() + " } else { " + self.s2.show() + " }"
 
 class Assign(Stmt):
     def __init__(self, label, expr):

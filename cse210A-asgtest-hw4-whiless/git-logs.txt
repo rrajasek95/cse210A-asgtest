@@ -1,0 +1,366 @@
+commit 50fa0716a74460b6280ee429d186a367a18580c2
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:11:44 2020 -0700
+
+    Actual commit: Add results and description for python implementation
+
+commit 10101e4a693454c66569af1724386d2352d50dba
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:10:56 2020 -0700
+
+    Add results and description for python implementation
+
+commit e8bcae734a3cf7b926762ee24444b8ad53be3bff
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:02:09 2020 -0700
+
+    Complete implementation of small step while in python
+
+commit 2556ad4510e0cade84a90235c295a22b4d439a0a
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Mon Apr 27 23:36:29 2020 -0700
+
+    Add skeleton code for while python
+
+commit ef9503288e2ebfc9c837e2cd0453e26ee826fecb
+Merge: 06ce243 51b24e6
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Mon Apr 27 23:34:15 2020 -0700
+
+    Merge branch 'master' of https://github.com/versey-sherry/cse210A-asgtest
+
+commit 51b24e619965898465166dda213cef9f293344d7
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 24 20:47:44 2020 -0700
+
+    changed structures
+
+commit 06ce24357060331432720f4ceb332abc69f36e33
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:16:04 2020 -0700
+
+    Add git logs
+
+commit ce8f9904fbef2f2300964a988b62a65c61d6b544
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:15:22 2020 -0700
+
+    Add test case image and report
+
+commit ede37b0d14124b6cbfc98b551e26d8b5f35456c3
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:11:37 2020 -0700
+
+    Add while-ss to gitignore
+
+commit 83c0da62760d3959d10db49d1f365452c86e6579
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 23 19:10:02 2020 -0700
+
+    Implement small step while
+
+commit 34487a1d7f596b430e211d8331ec6cef0851da15
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:49:25 2020 -0700
+
+    Update readme and add test output
+
+commit ae45583b0a56b762294cad574dd93a44ba1f1080
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:43:46 2020 -0700
+
+    Add readme.pdf for assignment 2
+
+commit 3bbfd5eee990c52e3c5c68d0c75bcdcef023fa3f
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:40:14 2020 -0700
+
+    Add new while tests image and log
+
+commit 8a04c8fbf8350959b3d8aebd5d900a22e8768178
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:37:51 2020 -0700
+
+    Add a very fragile version of ternary
+
+commit ad6a4a99a6fdee3aff895964cd299451f0756d20
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Sun Apr 19 00:20:38 2020 -0700
+
+    Add ternary operator
+
+commit 912ec54c77ad3c5df41e15bab5d5f1f7cb0caf87
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Apr 18 09:13:08 2020 -0700
+
+    changed hard-11 back
+
+commit 185582fdfa8e77ed891b49cbad86180f76c49fa1
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 19:55:19 2020 -0700
+
+    while-ss spaces
+
+commit 7ec39f8ddbea59bb2b6573c7a0a0f2f9465810be
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 17:45:47 2020 -0700
+
+    fix case 11
+
+commit 6cf8dc91216ee82c030fbeedbbe69e9921a49e9c
+Merge: f0e5d17 b3866f3
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 17:38:02 2020 -0700
+
+    Merge branch 'master' of https://github.com/versey-sherry/cse210A-asgtest
+    add spaces
+
+commit f0e5d17ed9006af6a5239216530d62e5b6a6d26f
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 17:34:12 2020 -0700
+
+    add spaces
+
+commit b3866f35631069178168d748b328ec5360a13b98
+Merge: 706b71a 75300d0
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Apr 17 08:41:50 2020 -0700
+
+    Merge pull request #1 from nijssen/master
+    
+    Some fixes to the homework 2 test scripts that fix a few incorrect spaces
+
+commit 8ede9c864733c91545e3497f803b13dd5dc0a5b8
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 17 01:32:16 2020 -0700
+
+    Move combinators to separate file
+
+commit 75300d0038b7771a39faa0ee484202680737e851
+Author: Thomas Nijssen <tnijssen@ucsc.edu>
+Date:   Fri Apr 17 00:07:59 2020 -0700
+
+    Removed temporary test case
+
+commit 9763544c25655a5676cd245d03b16c2d593799c0
+Author: Thomas Nijssen <tnijssen@ucsc.edu>
+Date:   Fri Apr 17 00:03:15 2020 -0700
+
+    Some fixes to the homework 2 test scripts that fix a few incorrect spaces
+
+commit cf6c655e3ce7f6a30ae5e4a3036813fbab6e8ae4
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 02:17:48 2020 -0700
+
+    make while non-greedy
+
+commit eeab08bb8fca26d94de4869f3fd976e77247f2c2
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 02:12:19 2020 -0700
+
+    Add more boolean operators and tweak variable scheme
+
+commit 1bc64cf20a21382c91241d1e008644758447d1df
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 01:36:38 2020 -0700
+
+    Add boolean expressions and setup main interpreter
+
+commit 28322c5286920f94b2fc87d1f2712db0202338e1
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 01:00:20 2020 -0700
+
+    Add while loop support to language
+
+commit 964c2573513577eeede412cf71c7125a03b82673
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 15 00:31:29 2020 -0700
+
+    Add skip and assignment to while language
+
+commit fa39deb0f2e30f7de8a2e0a49a0307ad82c0845c
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 23:59:57 2020 -0700
+
+    define eval for statements
+
+commit 013df34e9822e913316547ae7e85c8828df491e6
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 23:10:33 2020 -0700
+
+    Add basic support for variables
+
+commit 552e6e4d36d3fe3e021adb1a57ec92422f8e699c
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 22:29:06 2020 -0700
+
+    Add support for exponentiation
+
+commit f77b75501d4ac890636011a877b2e3016683f210
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 21:28:28 2020 -0700
+
+    Add working ARITH interpreter without exponentiation
+
+commit ddfb3f0e2e63c372bb4b14d619b323ba2ad962a4
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 18:24:57 2020 -0700
+
+    Add AST constructs, arithmetic expression and boolean expression support
+
+commit d00a5939f78812e85d9c423e17a7516458d5b9c3
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 16:12:32 2020 -0700
+
+    Add makefile for haskell and gitignore while code
+
+commit 238e96bc80b4b9bc490b55f92c3838edf287378d
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 16:01:40 2020 -0700
+
+    Update package.yaml
+
+commit 32b87bc1c8e97002b88f2aafbae80936175afad1
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 15:58:15 2020 -0700
+
+    Add parser combinators and basic spec tests
+
+commit 8846a2ebd7c08960bd54b53b5b51cf89719a6c66
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 00:49:54 2020 -0700
+
+    Add stack skeleton for while
+
+commit 85256b7f75f5b1b0c45b8ba5f5491f1e2d182014
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 14 00:47:15 2020 -0700
+
+    Remove rust code for ARITH
+
+commit 868e0146b4248e0c4b90333b4b37a1b0bdd98f33
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 11:15:31 2020 -0700
+
+    Add test cases for exponentiation
+
+commit 43328dc735b5c016efc92e187a0d7f5fb9fe920b
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 05:10:30 2020 -0700
+
+    Add exponentiation and test cases
+
+commit e6446466ed5e39fba59af4c7717278d870783c45
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:46:43 2020 -0700
+
+    Add logs for assignment 1
+
+commit e35163d5f4de558adf331a803a812ccdd1e1ca7f
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:43:22 2020 -0700
+
+    Add test image and PDF
+
+commit 52b1fe6e512911424ba86d36f3e9db02c4378c70
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:41:31 2020 -0700
+
+    Update README.MD with test case coverage
+
+commit 1ad5a734da526d1168659d30b09808d9795f7c11
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:33:36 2020 -0700
+
+    Update README.md
+
+commit b04302446838696fe2993a0c08f2251f78921b49
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:24:30 2020 -0700
+
+    Add custom test cases
+
+commit c52fb3fa91d0d620b233e8907b8d6f2c8f8dfc8b
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:19:17 2020 -0700
+
+    Update makefile to compile go code
+
+commit e72b1f1d91d6052d64ea3d75bb9ad19d7ae75172
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 04:13:09 2020 -0700
+
+    Have functional go arith implementation
+
+commit c9c3aae200bc0f1a64bc4001c2ebbd339b997e34
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Fri Apr 10 02:10:28 2020 -0700
+
+    Add basic go combinators and parsers
+
+commit 17d99186f76636bcfda2050d40aaa5e6656ff0df
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Thu Apr 9 17:00:05 2020 -0700
+
+    Create skeleton for go variant
+
+commit 30476e44f6d306ada9285be05bd0b30fb825fba7
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Wed Apr 8 13:35:32 2020 -0700
+
+    Unbox integer and create (failing) arith tests
+
+commit c5ccec1ae7e21bf1c950811ddd92bdc9603c7a85
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 7 12:44:40 2020 -0700
+
+    Initial code for ARITH
+
+commit 706b71ad17fc9949ca34e416b1939b19e4f8ac63
+Merge: b5a25cb d735291
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 11:37:50 2020 -0700
+
+    added README
+
+commit b5a25cb799ac85611fab7ebb8ef6cdd1e30955da
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 11:34:39 2020 -0700
+
+    name updating for arith
+
+commit d735291eb5f6b4c501abc7893f1c2313e71cdd59
+Author: versey-sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 10:49:22 2020 -0700
+
+    Create README.md
+
+commit 21ec9c800ad62f875d5088e58a3c71d994c396d5
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Sat Mar 28 10:29:49 2020 -0700
+
+    fixed naming
+
+commit ac967aa4b7eb2b98fef9f4efcfac21ccb18f858d
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Mar 27 20:55:37 2020 -0700
+
+    name changing
+
+commit ca5f499b2de70026c1d170d2010a9457511ebf43
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Fri Mar 27 20:26:17 2020 -0700
+
+    done with while
+
+commit 102497cd16b478d65075fa651b71dd90e3c679fa
+Author: Sherry <sherrylin42@gmail.com>
+Date:   Thu Mar 26 13:01:14 2020 -0700
+
+    testscripts from Sohum
+
+commit b68c4c00f7fa15e614c731ae4a892dc2a4c85691
+Author: Sohum Banerjea <sohumb@gmail.com>
+Date:   Mon Jan 6 11:21:35 2020 -0800
+
+    vendoring bats
