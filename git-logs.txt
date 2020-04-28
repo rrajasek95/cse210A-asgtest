@@ -1,3 +1,45 @@
+commit 147ba372bce976abb9ff9714f00d60c4518e8cc0
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:42:14 2020 -0700
+
+    Update report
+
+commit ccc3ed30108ef4825c2462243b286bec27d9aeae
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:41:25 2020 -0700
+
+    Add custom results
+
+commit 80e99928a7c6920275606880a7a5dcf898e6fe91
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:35:41 2020 -0700
+
+    Fix really stupid errors in code
+
+commit 4c3c69788fadec68f451775675b12dad57aea539
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:15:43 2020 -0700
+
+    Update report information
+
+commit 70815aa8590a14d9a0faf67f819594a5e72b0e60
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:15:06 2020 -0700
+
+    Add info about ANLTR grammar
+
+commit cef20b4e2e9cb560f1a2041e986371351a8f1177
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:12:49 2020 -0700
+
+    Add report information
+
+commit e455a04f314742e95f78eec804684999f3572bc8
+Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
+Date:   Tue Apr 28 01:12:07 2020 -0700
+
+    Add reference git logs
+
 commit 50fa0716a74460b6280ee429d186a367a18580c2
 Author: Rishi Rajasekaran <rajasekaran.rishi@gmail.com>
 Date:   Tue Apr 28 01:11:44 2020 -0700
